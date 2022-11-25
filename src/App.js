@@ -1,23 +1,40 @@
-import logo from './logo.svg';
+import { BrowserRouter } from "react-router-dom";
+import React,{useEffect, useState, useContext} from 'react';
 import './App.css';
 
+import Main from './components/Main';
+import axios from 'axios';
+import Header from './components/Header';
+import Cart from './components/Cart';
+
+
+
+
+
 function App() {
+  const [data,setData] = useState('')
+  const [sidebarOpen, setSideBarOpen] = useState(false);
+
+  const handleViewSidebar = () => {
+    setSideBarOpen(!sidebarOpen);
+  };
+
+  useEffect(() => {
+    axios.get('https://fakestoreapi.com/products/')
+    .then(getData=> setData(getData.data))
+    .catch(err => console.log('error:', err))
+    
+  },[])
+
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header onClick={handleViewSidebar}/>
+      <Cart isOpen={sidebarOpen} toggleSidebar={handleViewSidebar} />
+      <BrowserRouter>
+        <Main />
+      </BrowserRouter>
+     {console.log(data)}
     </div>
   );
 }

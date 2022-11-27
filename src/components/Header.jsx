@@ -1,8 +1,12 @@
-import React from 'react';
-import Cart from './Cart';
+import React, {useContext, useState} from 'react';
 import '../App.css';
 
-const Header = props => {
+
+
+const Header = (props) => {
+  
+
+
   return (
     <header>
           <h1>The BestShop!</h1>

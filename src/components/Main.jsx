@@ -1,5 +1,6 @@
 import React from "react";
-import {BrowserRouter, Route, Routes } from "react-router-dom";
+import {BrowserRouter, Route, Routes,Navigate } from "react-router-dom";
+
 
 //Pages import routes
 import CategoriesList from "../Pages/CategoriesList";
@@ -13,10 +14,11 @@ function Main() {
   return (
     <main>
         <Routes>
-          <Route path="/" element={<CategoriesList />}/>
+          <Route path="/" element={ <Navigate to="/category" /> }/>
           <Route path="/category" element={<CategoriesList />}/>
           <Route path="/category/:catid" element={<ProductsList />} />
-          <Route path="/item/id" element={<Product />} />
+          <Route path="/category/:catid/item/:id" element={<Product />} />
+          <Route path="/category/:catid/item/" element={ <Navigate to="/category" /> }/>
           <Route path="*" element={<NotFound />} />
         </Routes>
     </main>

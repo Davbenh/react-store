@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, createContext } from "react";
 import "./App.css";
 
@@ -10,37 +9,48 @@ import axios from "axios";
 
 
 
-
-
 function App() {
   const [sidebarOpen, setSideBarOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [cart, setCart] = useState([]);
   const [dataItems, setDataItems] = useState([]);
 
-  
   const handleViewSidebar = () => {
     setSideBarOpen(!sidebarOpen);
   };
 
 
+
+  const addToCart = (id) => {
+    const itemAdd = dataItems.filter((item) =>  item.id == id)
+    const isInCart = cart.findIndex((item) =>  item.id == id)
+    if (isInCart < 0) {
+      itemAdd[0].qty += 1;
+      setCart(current => [...current, ...itemAdd]);
+      setSideBarOpen("sidebar open")
+    } else {
+      cart[isInCart].qty += 1;
+      setCart(current => [...current]);
+      setSideBarOpen("sidebar open")
+    }
+    } 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
-            .then(res=>res.json())
-            .then(json=>setDataItems(json))
+    fetch("https://fakestoreapi.com/products")
+      .then((res) => res.json())
+      .then((json) => setDataItems(json.map(v => ({...v, qty: v.value = Number(0)}))))
+    
   }, []);
 
-
-  
   return (
     <div className="App">
-      <ContextData.Provider value={{ dataItems, cartItems ,setCartItems}}>
-            <Header onClick={handleViewSidebar} />
-            <Cart isOpen={sidebarOpen} toggleSidebar={handleViewSidebar} />
-            <Main />
+      <ContextData.Provider value={{ dataItems, cart, setCart,addToCart }}>
+        <Header onClick={handleViewSidebar} />
+        <Cart isOpen={sidebarOpen} toggleSidebar={handleViewSidebar} />
+        <Main />
       </ContextData.Provider>
     </div>
   );
 }
+
 export const ContextData = createContext({});
 export const MyCart = createContext([]);
 

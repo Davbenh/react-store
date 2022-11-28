@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext} from "react";
 import "../App.css";
 import { ContextData } from "../App";
 
 const Cart = (props) => {
-  const { dataItems, cart, setCart, addToCart, cartSum, cartQty } =
+  const {cart} =
     useContext(ContextData);
 
   const sidebarClass = props.isOpen ? "sidebar open" : "sidebar";
@@ -28,7 +28,7 @@ const Cart = (props) => {
       <div className="cart-item-footer">
         <div className="cartQty">
           total price : $
-          {cart.reduce((total, item) => total + item.price * item.qty, 0)}
+          {cart.reduce((total, item) => total + item.price * item.qty, 0).toFixed(2)}
         </div>
         <div className="cartSum">
           total pcs : {cart.reduce((total, item) => total + item.qty, 0)}

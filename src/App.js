@@ -10,8 +10,7 @@ function App() {
   const [sidebarOpen, setSideBarOpen] = useState(false);
   const [cart, setCart] = useState([]);
   const [dataItems, setDataItems] = useState([]);
-  const [cartQty, setCartQty] = useState(0);
-  const [cartSum, setCartSum] = useState(0);
+
 
   const handleViewSidebar = () => {
     setSideBarOpen(!sidebarOpen);
@@ -22,7 +21,7 @@ function App() {
     const isInCart = cart.findIndex((item) => item.id == id);
     if (isInCart < 0) {
       itemAdd[0].qty += 1;
-      setCart((current) => [...current, ...itemAdd]);
+      setCart((current) => [...itemAdd,...current]);
       setSideBarOpen("sidebar open");
     } else {
       cart[isInCart].qty += 1;
@@ -41,7 +40,7 @@ function App() {
   return (
     <div className="App">
       <ContextData.Provider
-        value={{ dataItems, cart, setCart, addToCart, cartQty, cartSum }}
+        value={{ dataItems, cart, setCart, addToCart }}
       >
         <Header onClick={handleViewSidebar} />
         <Cart isOpen={sidebarOpen} toggleSidebar={handleViewSidebar} />
